@@ -19,4 +19,7 @@ public interface UserMapper {
 
     @Delete("DELETE FROM user WHERE id = #{id}")
     int deleteById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM user limit #{pageNum}, #{pageSize}")
+    List<User> selectPage(Integer pageNum, Integer pageSize);
 }
