@@ -1,0 +1,9 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3310/gmsp?serverTimezone=GMT%2b8
+    username: root
+    password: root
