@@ -42,11 +42,13 @@ public class UserController {
     // @RequestParam接受
     @GetMapping("/list/page")
     public Map<String, Object> listPage(@RequestParam Integer pageNum,
-                                        @RequestParam Integer pageSize) {
+                                        @RequestParam Integer pageSize,
+                                        @RequestParam String username) {
         pageNum = (pageNum - 1) * pageSize;
-        List<User> users = userMapper.selectPage(pageNum, pageSize);
+        username = "%" + username + "%";
+        List<User> users = userMapper.selectPage(pageNum, pageSize, username);
         List<User> userList = userMapper.findAll();
-        Integer total = userList.size();
+        Integer total = userMapper.selectTotal(username);
         Map<String, Object> res = new HashMap<>();
         res.put("data", users);
         res.put("total", total);

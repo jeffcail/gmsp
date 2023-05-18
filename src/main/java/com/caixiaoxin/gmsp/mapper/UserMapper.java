@@ -20,6 +20,9 @@ public interface UserMapper {
     @Delete("DELETE FROM user WHERE id = #{id}")
     int deleteById(@Param("id") Integer id);
 
-    @Select("SELECT * FROM user limit #{pageNum}, #{pageSize}")
-    List<User> selectPage(Integer pageNum, Integer pageSize);
+    @Select("SELECT * FROM user WHERE username like #{username} limit #{pageNum}, #{pageSize}")
+    List<User> selectPage(Integer pageNum, Integer pageSize, String username);
+
+    @Select("SELECT COUNT(1) FROM user WHERE username like #{username}")
+    Integer selectTotal(String username);
 }
