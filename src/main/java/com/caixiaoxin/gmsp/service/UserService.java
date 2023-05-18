@@ -1,22 +1,15 @@
 package com.caixiaoxin.gmsp.service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.caixiaoxin.gmsp.entity.User;
 import com.caixiaoxin.gmsp.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService extends ServiceImpl<UserMapper, User> {
 
-    @Autowired
-    private UserMapper userMapper;
-
-    public int save(User user) {
-        if (user.getId() == null) {
-            return userMapper.save(user);
-        } else {
-            return userMapper.update(user);
-        }
+    public boolean saveUser(User user) {
+        return saveOrUpdate(user);
     }
 
 }
