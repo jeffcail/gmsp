@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.caixiaoxin.gmsp.entity.User;
 import com.caixiaoxin.gmsp.mapper.UserMapper;
 import com.caixiaoxin.gmsp.service.UserService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,11 @@ public class UserController {
         return userService.removeById(id);
     }
 
+    @PostMapping("/del/batch")
+    public boolean deleteBatch(@RequestBody List<Integer> ids) {
+        return userService.removeBatchByIds(ids);
+    }
+
 
     // 分页查询
     // 接口路径  /user/page
@@ -44,12 +50,29 @@ public class UserController {
                                 @RequestParam Integer pageSize,
                                 @RequestParam(defaultValue = "") String username,
                                 @RequestParam(defaultValue = "") String nickname,
-                                @RequestParam(defaultValue = "") String email) {
+                                @RequestParam(defaultValue = "") String email,
+                                @RequestParam(defaultValue = "") String address,
+                                @RequestParam(defaultValue = "") String phone) {
         IPage<User> page = new Page<>(pageNum, pageSize);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("username", username);
-        queryWrapper.like("nickname", nickname);
-        queryWrapper.like("email", email);
+        if (!"".equals(username)) {
+            queryWrapper.like("username", username);
+        }
+
+        if (!"".equals(nickname)) {
+            queryWrapper.like("nickname", nickname);
+        }
+
+        if (!"".equals(email)) {
+            queryWrapper.like("email", email);
+        }
+        if (!"".equals(address)) {
+            queryWrapper.like("address", address);
+        }
+        if (!"".equals(phone)) {
+            queryWrapper.like("phone", phone);
+        }
+        queryWrapper.orderByDesc("id");
         return userService.page(page, queryWrapper);
     }
 
