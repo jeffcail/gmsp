@@ -1,5 +1,6 @@
 package com.caixiaoxin.gmsp.service;
 
+import com.caixiaoxin.gmsp.controller.dto.UserRequest;
 import com.caixiaoxin.gmsp.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    boolean login(UserRequest userRequest);
 }

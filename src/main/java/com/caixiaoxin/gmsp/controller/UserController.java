@@ -1,11 +1,13 @@
 package com.caixiaoxin.gmsp.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.caixiaoxin.gmsp.controller.dto.UserRequest;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -35,6 +37,16 @@ public class UserController {
 
     @Resource
     private IUserService userService;
+
+    @PostMapping("/login")
+    private boolean login(@RequestBody UserRequest userRequest) {
+        String username = userRequest.getUsername();
+        String password = userRequest.getPassword();
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password))   {
+            return false;
+        }
+        return userService.login(userRequest);
+    }
 
     @PostMapping
     public Boolean save(@RequestBody User user) {
