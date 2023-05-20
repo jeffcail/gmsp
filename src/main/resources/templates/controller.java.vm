@@ -72,8 +72,10 @@ public class ${table.controllerName} {
 
     @GetMapping("/page")
     public Page<${entity}> findPage(@RequestParam Integer pageNum,
-    @RequestParam Integer pageSize) {
-        return ${table.entityPath}Service.page(new Page<>(pageNum, pageSize));
+                                    @RequestParam Integer pageSize) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
+        return ${table.entityPath}Service.page(new Page<>(pageNum, pageSize), queryWrapper);
     }
 
 
