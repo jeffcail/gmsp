@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.caixiaoxin.gmsp.common.Constants;
 import com.caixiaoxin.gmsp.common.Result;
 import com.caixiaoxin.gmsp.controller.dto.UserRequest;
+import com.caixiaoxin.gmsp.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -104,6 +105,10 @@ public class UserController {
             queryWrapper.like("phone", phone);
         }
         queryWrapper.orderByDesc("id");
+
+        User currentUser = TokenUtils.getCurrentUser();
+        System.out.println("======================="+currentUser.getNickname());
+
         return userService.page(new Page<>(pageNum, pageSize), queryWrapper);
     }
 

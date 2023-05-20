@@ -10,6 +10,7 @@ import com.caixiaoxin.gmsp.exception.ServiceException;
 import com.caixiaoxin.gmsp.mapper.UserMapper;
 import com.caixiaoxin.gmsp.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.caixiaoxin.gmsp.utils.TokenUtils;
 import org.springframework.stereotype.Service;
 
 
@@ -41,6 +42,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         if (one != null) {
             BeanUtil.copyProperties(one,userRequest, true);
+            // 设置token
+            String token = TokenUtils.generateToken(one.getId().toString(), one.getPassword());
+            userRequest.setToken(token);
             return userRequest;
         } else {
             throw new ServiceException(Constants.CODE_601, "用户名或密码错误");
