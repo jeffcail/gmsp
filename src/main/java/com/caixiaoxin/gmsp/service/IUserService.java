@@ -14,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
-    boolean login(UserRequest userRequest);
+    UserRequest login(UserRequest userRequest);
 }

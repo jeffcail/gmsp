@@ -29,6 +29,8 @@ public class User implements Serializable {
 
     private String nickname;
 
+    private String avatar;
+
     private String email;
 
     private String phone;
@@ -70,6 +72,13 @@ public class User implements Serializable {
 
       public void setNickname(String nickname) {
           this.nickname = nickname;
+      }
+    public String getAvatar() {
+         return avatar;
+    }
+
+      public void setAvatar(String avatar) {
+        this.avatar = avatar;
       }
     
     public String getEmail() {
@@ -119,6 +128,7 @@ public class User implements Serializable {
                   ", username=" + username +
                   ", password=" + password +
                   ", nickname=" + nickname +
+                  ", avatar=" + avatar +
                   ", email=" + email +
                   ", phone=" + phone +
                   ", address=" + address +

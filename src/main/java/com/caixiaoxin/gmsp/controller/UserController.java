@@ -7,6 +7,8 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.caixiaoxin.gmsp.common.Constants;
+import com.caixiaoxin.gmsp.common.Result;
 import com.caixiaoxin.gmsp.controller.dto.UserRequest;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -39,13 +41,15 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/login")
-    private boolean login(@RequestBody UserRequest userRequest) {
+    private Result login(@RequestBody UserRequest userRequest) {
         String username = userRequest.getUsername();
         String password = userRequest.getPassword();
-        if (StrUtil.isBlank(username) || StrUtil.isBlank(password))   {
-            return false;
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password)) {
+            return Result.error(Constants.CODE_400, "参数错误");
         }
-        return userService.login(userRequest);
+        UserRequest userReq = userService.login(userRequest);
+
+        return Result.success(userReq);
     }
 
     @PostMapping
