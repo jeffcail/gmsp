@@ -1,38 +1,40 @@
 package com.caixiaoxin.gmsp.controller;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.caixiaoxin.gmsp.entity.User;
-import com.caixiaoxin.gmsp.mapper.UserMapper;
-import com.caixiaoxin.gmsp.service.UserService;
-import io.swagger.models.auth.In;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
+import com.caixiaoxin.gmsp.service.IUserService;
+import com.caixiaoxin.gmsp.entity.User;
+
+import org.springframework.stereotype.Controller;
+
+/**
+ * <p>
+ *  前端控制器
+ * </p>
+ *
+ * @author 太阳上的雨天
+ * @since 2023-05-20
+ */
+@Controller
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    @Resource
+    private IUserService userService;
 
-    @PostMapping("/save")
-    public boolean save(@RequestBody User user) {
-        return userService.saveUser(user);
-    }
-
-    @GetMapping("/list")
-    public List<User> list() {
-        return userService.list();
+    @PostMapping
+    public Boolean save(@RequestBody User user) {
+        return userService.saveOrUpdate(user);
     }
 
     @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable Integer id) {
+    public Boolean delete(@PathVariable Integer id) {
         return userService.removeById(id);
     }
 
@@ -41,19 +43,24 @@ public class UserController {
         return userService.removeBatchByIds(ids);
     }
 
+    @GetMapping
+    public List<User> findAll() {
+        return userService.list();
+    }
 
-    // 分页查询
-    // 接口路径  /user/page
-    // @RequestParam接受
-    @GetMapping("/list/page")
-    public IPage<User> listPage(@RequestParam Integer pageNum,
-                                @RequestParam Integer pageSize,
-                                @RequestParam(defaultValue = "") String username,
-                                @RequestParam(defaultValue = "") String nickname,
-                                @RequestParam(defaultValue = "") String email,
-                                @RequestParam(defaultValue = "") String address,
-                                @RequestParam(defaultValue = "") String phone) {
-        IPage<User> page = new Page<>(pageNum, pageSize);
+    @GetMapping("/{id}")
+    public User findOne(@PathVariable Integer id) {
+        return userService.getById(id);
+    }
+
+    @GetMapping("/page")
+    public Page<User> findPage(@RequestParam Integer pageNum,
+                               @RequestParam Integer pageSize,
+                               @RequestParam(defaultValue = "") String username,
+                               @RequestParam(defaultValue = "") String nickname,
+                               @RequestParam(defaultValue = "") String email,
+                               @RequestParam(defaultValue = "") String address,
+                               @RequestParam(defaultValue = "") String phone) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if (!"".equals(username)) {
             queryWrapper.like("username", username);
@@ -73,7 +80,10 @@ public class UserController {
             queryWrapper.like("phone", phone);
         }
         queryWrapper.orderByDesc("id");
-        return userService.page(page, queryWrapper);
+        return userService.page(new Page<>(pageNum, pageSize), queryWrapper);
     }
 
+
+
 }
+
