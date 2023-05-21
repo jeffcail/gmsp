@@ -50,6 +50,8 @@ public class UserController {
         }
         UserRequest userReq = userService.login(userRequest);
 
+        // 获取菜单 - 前端动态路由
+
         return Result.success(userReq);
     }
 
@@ -107,7 +109,7 @@ public class UserController {
         queryWrapper.orderByDesc("id");
 
         User currentUser = TokenUtils.getCurrentUser();
-        System.out.println("======================="+currentUser.getNickname());
+//        System.out.println("======================="+currentUser.getNickname());
 
         return userService.page(new Page<>(pageNum, pageSize), queryWrapper);
     }

@@ -41,7 +41,16 @@ public class User implements Serializable {
 
     private LocalDateTime updateAt;
 
-    
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -124,16 +133,17 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-              "id=" + id +
-                  ", username=" + username +
-                  ", password=" + password +
-                  ", nickname=" + nickname +
-                  ", avatar=" + avatar +
-                  ", email=" + email +
-                  ", phone=" + phone +
-                  ", address=" + address +
-                  ", createAt=" + createAt +
-                  ", updateAt=" + updateAt +
-              "}";
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", role='" + role + '\'' +
+                '}';
     }
 }
